@@ -1,0 +1,13 @@
+category_code,order_count,pct_of_all_orders,invoice_total_brl,payment_total_brl,amount_to_review_brl,root_cause
+E1_MISSING_GATEWAY_RECORD,1,0.001%,143.46,0.00,143.46,Delivered order has 3 billed items (R$ 143.46) but zero payment record in the payment gateway table.
+E2_ACTIVE_ORDER_MISSING_ITEMS,8,0.008%,0.00,915.06,915.06,"Payment was collected on an active/shipped order, but the billing table (order_items) has zero items recorded."
+E3_BILLING_FREIGHT_COPY_BUG,58,0.058%,11538.42,6838.71,4699.71,"Billing table copied item price into the delivery fee column (freight_value == price) across 3 sellers, falsely doubling the item price."
+E4_UNRECORDED_CHECKOUT_DISCOUNT,18,0.018%,2353.76,2155.19,198.57,"Delivered order where a 5% debit-card, 10% promo, flat R$10, or bundle discount was applied at payment without being logged in the billing or voucher table."
+E5_SINGLE_PAYMENT_OVERCHARGE,7,0.007%,357.31,365.80,8.49,Single-installment (1x) delivered order where the payment gateway collected slightly more than the billed price + delivery fee.
+E6_CANCELED_NO_ITEMS_REFUND_CHECK,764,0.768%,0.00,161676.89,161676.89,Canceled or out-of-stock (unavailable) order with customer payment collected and zero invoice items; payment table lacks a refund status column.
+E7_CANCELED_WITH_ITEMS_REFUND_CHECK,467,0.470%,108026.21,108058.22,108058.22,Canceled or out-of-stock (unavailable) order with both invoice items and customer payment collected; payment table lacks a refund status column.
+E8_METADATA_TIMESTAMP_OR_INSTALLMENT_BUG,47,0.047%,8058.86,8058.87,0.00,"Invoice and payment amounts match 100%, but order has a missing approval/delivery date, backwards carrier-to-customer timestamp, or 0-installment retry flag."
+INFO_1_MULTI_INSTALLMENT_INTEREST,237,0.238%,25594.83,28633.79,3038.96,Multi-installment (>1x) credit-card order where extra amount collected above base invoice represents buyer installment financing interest.
+INFO_2_CENT_ROUNDING_NOISE,314,0.316%,115200.00,115199.30,3.70,Minor 1-to-6 cent rounding difference between item sum and installment/split payment sum.
+INFO_3_ABORTED_ZERO_PAYMENT_CANCELED,3,0.003%,0.00,0.00,0.00,Canceled order where customer abandoned checkout with R$ 0.00 paid (and 0 invoice items).
+CLEAN_RECONCILED_ORDER,97517,98.065%,15576970.29,15576970.29,0.00,"Order system, billing table, and payment gateway match with zero financial or timestamp defects."
